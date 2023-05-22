@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp
+package com.albertbonet.pokeapp.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
