@@ -26,8 +26,12 @@ fun ImageView.loadUrl(url: String) {
     Glide.with(context).load(url).into(this)
 }
 
-fun getImageUrl(url: String): String {
+fun getPokemonImageUrl(url: String): String {
     val index = url.split("/".toRegex()).dropLast(1).last()
     return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$index.png"
+}
+
+fun getPokemonImageById(id: String): String {
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
 }
 

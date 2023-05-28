@@ -8,19 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.albertbonet.pokeapp.model.Pokemon
 import com.albertbonet.pokeapp.model.Pokemons
 import com.albertbonet.pokeapp.model.PokemonsRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel (
     private val pokemonsRepository: PokemonsRepository
 ): ViewModel() {
 
-    private val _state = MutableLiveData(UiState())
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
-    val state: LiveData<UiState> get() {
-        if (_state.value?.pokemons == null) {
-            refresh()
-        }
-        return _state
+    init {
+        refresh()
     }
 
     private fun refresh () {
@@ -33,9 +34,9 @@ class MainViewModel (
 
     fun onPokemonClicked(pokemonName: String) {
         viewModelScope.launch {
-            _state.value = _state.value?.copy(loading = true, navigateTo = null)
+            _state.value = _state.value.copy(loading = true, navigateTo = null)
             val pokemon = pokemonsRepository.getPokemon(pokemonName)
-            _state.value = _state.value?.copy(loading = false, navigateTo = pokemon)
+            _state.value = _state.value.copy(loading = false, navigateTo = pokemon)
         }
     }
 

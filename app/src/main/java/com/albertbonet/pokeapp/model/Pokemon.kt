@@ -17,7 +17,7 @@ class Pokemon(
     @Parcelize
     class TypeResult(
         @SerializedName("slot") val slot: Int,
-        @SerializedName("type") val types: Type
+        @SerializedName("type") val type: Type
     ): Parcelable
 
     @Parcelize

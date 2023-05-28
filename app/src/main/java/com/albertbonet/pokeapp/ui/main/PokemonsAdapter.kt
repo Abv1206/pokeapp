@@ -8,7 +8,7 @@ import com.albertbonet.pokeapp.R
 import com.albertbonet.pokeapp.databinding.ViewPokemonBinding
 import com.albertbonet.pokeapp.model.Pokemons
 import com.albertbonet.pokeapp.ui.common.basicDiffUtil
-import com.albertbonet.pokeapp.ui.common.getImageUrl
+import com.albertbonet.pokeapp.ui.common.getPokemonImageUrl
 import com.albertbonet.pokeapp.ui.common.inflate
 import com.albertbonet.pokeapp.ui.common.loadUrl
 
@@ -30,7 +30,7 @@ class PokemonsAdapter(private val listener: (Pokemons) -> Unit) :
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ViewPokemonBinding.bind(view)
         fun bind(pokemons: Pokemons) = with(binding) {
-            pokemonArt.loadUrl(getImageUrl(pokemons.url))
+            pokemonArt.loadUrl(getPokemonImageUrl(pokemons.url))
             pokemonName.text = pokemons.name
         }
     }
