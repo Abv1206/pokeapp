@@ -10,7 +10,6 @@ import com.albertbonet.pokeapp.R
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
 import com.albertbonet.pokeapp.model.Pokemon
 import com.albertbonet.pokeapp.ui.common.getPokemonImageById
-import com.albertbonet.pokeapp.ui.common.getPokemonImageUrl
 import com.albertbonet.pokeapp.ui.common.loadUrl
 import kotlinx.coroutines.launch
 
@@ -39,7 +38,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun updateUI(pokemon: Pokemon) = with(binding) {
         pokemonDetailToolbar.title = pokemon.name
-        pokemonDetailInfo.setPokemon(pokemon)
+        //pokemonDetailInfo.setPokemon(pokemon)
         pokemonArtImage.loadUrl(getPokemonImageById(pokemon.id.toString()))
         pokemonDetailSummary.text = "Hardcoded summary"
     }

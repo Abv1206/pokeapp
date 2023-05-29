@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.DarkOverlay"
+            android:theme="@style/Theme.PokeApp.NoActionBar"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     app:layout_collapseMode="parallax"
                     tools:src="@mipmap/ic_launcher" />
 
@@ -64,15 +64,15 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     tools:text="Lorem ipsum" />
 
-                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView
-                    android:id="@+id/pokemon_detail_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:lineSpacingMultiplier="1.5"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:background="?attr/colorSurface"
-                    tools:text="Lorem ipsum" />
+<!--                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView-->
+<!--                    android:id="@+id/pokemon_detail_info"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="16dp"-->
+<!--                    android:lineSpacingMultiplier="1.5"-->
+<!--                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--                    android:background="?attr/colorSurface"-->
+<!--                    tools:text="Lorem ipsum" />-->
 
             </LinearLayout>
 
