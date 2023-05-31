@@ -64,15 +64,15 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     tools:text="Lorem ipsum" />
 
-<!--                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView-->
-<!--                    android:id="@+id/pokemon_detail_info"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:padding="16dp"-->
-<!--                    android:lineSpacingMultiplier="1.5"-->
-<!--                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--                    android:background="?attr/colorSurface"-->
-<!--                    tools:text="Lorem ipsum" />-->
+                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView
+                    android:id="@+id/pokemon_detail_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:background="?attr/colorSurface"
+                    tools:text="Lorem ipsum" />
 
             </LinearLayout>
 
