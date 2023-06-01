@@ -23,12 +23,7 @@ class MainViewModel(
     private val _events = Channel<UiEvent>()
     val events = _events.receiveAsFlow()
 
-    init {
-        refresh()
-    }
-
-    private fun refresh() {
-        // Called on the first time, when the pokemons list is empty or null
+    fun onUiReady() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
             _state.value = UiState(pokemons = pokemonsRepository.findPokemons(0).results)
