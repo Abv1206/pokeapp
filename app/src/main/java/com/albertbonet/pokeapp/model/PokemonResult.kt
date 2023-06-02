@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class Pokemon(
+class PokemonResult(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("weight") val weight: Int,

@@ -30,9 +30,9 @@ class DetailActivity : AppCompatActivity() {
         binding.pokemonDetailToolbar.setNavigationOnClickListener { onBackPressed() }
 
         with (viewModel.state) {
-            diff({it.pokemon.name}) { binding.pokemonDetailToolbar.title = it }
-            diff({it.pokemon}) { binding.pokemonDetailInfo.setPokemon(it)}
-            diff({it.pokemon.id}) { binding.pokemonArtImage.loadUrl(
+            diff({it.pokemonResult.name}) { binding.pokemonDetailToolbar.title = it }
+            diff({it.pokemonResult}) { binding.pokemonDetailInfo.setPokemon(it)}
+            diff({it.pokemonResult.id}) { binding.pokemonArtImage.loadUrl(
                 getPokemonImageById(it.toString())
             ) }
             //diff({it.pokemon.summary}) { binding.pokemonDetailSummary.text = it }

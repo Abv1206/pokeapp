@@ -3,7 +3,7 @@ package com.albertbonet.pokeapp.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.albertbonet.pokeapp.model.Pokemon
+import com.albertbonet.pokeapp.model.PokemonResult
 import com.albertbonet.pokeapp.model.Pokemons
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import kotlinx.coroutines.channels.Channel
@@ -45,7 +45,7 @@ class MainViewModel(
     )
 
     sealed interface UiEvent {
-        data class NavigateTo(val pokemon: Pokemon) : UiEvent
+        data class NavigateTo(val pokemonResult: PokemonResult) : UiEvent
     }
 }
 

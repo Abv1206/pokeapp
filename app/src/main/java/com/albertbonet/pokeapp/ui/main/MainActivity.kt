@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.albertbonet.pokeapp.databinding.ActivityMainBinding
-import com.albertbonet.pokeapp.model.Pokemon
+import com.albertbonet.pokeapp.model.PokemonResult
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
         launchAndCollect(viewModel.events) { event ->
             when (event) {
-                is MainViewModel.UiEvent.NavigateTo -> navigateTo(event.pokemon)
+                is MainViewModel.UiEvent.NavigateTo -> navigateTo(event.pokemonResult)
             }
         }
 
@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateTo(pokemon: Pokemon) {
+    private fun navigateTo(pokemonResult: PokemonResult) {
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.POKEMON, pokemon)
+        intent.putExtra(DetailActivity.POKEMON, pokemonResult)
         startActivity(intent)
     }
 

@@ -1,5 +1,6 @@
 package com.albertbonet.pokeapp.ui.common
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
+import com.albertbonet.pokeapp.App
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -54,3 +56,7 @@ fun <T> LifecycleOwner.launchAndCollect(
         }
     }
 }
+
+// casting of Application, is an extension property
+val Context.app: App
+    get() = applicationContext as App

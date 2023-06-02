@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.albertbonet.pokeapp.model.Pokemon
+import com.albertbonet.pokeapp.model.PokemonResult
 
 class PokemonDetailInfoView @JvmOverloads constructor(
     context: Context,
@@ -13,7 +13,7 @@ class PokemonDetailInfoView @JvmOverloads constructor(
     defStyleAttr: Int = 0
     ): AppCompatTextView(context, attrs, defStyleAttr) {
 
-        fun setPokemon(pokemon: Pokemon) = with(pokemon) {
+        fun setPokemon(pokemonResult: PokemonResult) = with(pokemonResult) {
             text = buildSpannedString {
 
                 bold { append("Pokédex nº: ") }
