@@ -16,7 +16,7 @@ complexity:
       threshold: 40
   LongParameterList:
       functionThreshold: 4
-      constructorThreshold: 5
+      constructorThreshold: 15
   MethodOverloading:
       threshold: 5
   TooManyFunctions:

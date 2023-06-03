@@ -11,7 +11,9 @@ class PokemonResult(
     @SerializedName("weight") val weight: Int,
     @SerializedName("height") val height: Int,
     @SerializedName("base_experience") val baseExperience: Int,
-    @SerializedName("types") val types: List<TypeResult>
+    @SerializedName("types") val types: List<TypeResult>,
+    @SerializedName("stats") val stats: List<StatResult>,
+    @SerializedName("sprites") val sprites: Sprite
 ): Parcelable {
 
     @Parcelize
@@ -24,6 +26,34 @@ class PokemonResult(
     class Type(
         @SerializedName("name") val name: String
     ): Parcelable
+
+
+    @Parcelize
+    class StatResult(
+        @SerializedName("stat") val stat: SingularStat,
+        @SerializedName("effort") val effort: Int,
+        @SerializedName("base_stat") val baseStat: Int
+    ): Parcelable
+
+    @Parcelize
+    class SingularStat(
+        @SerializedName("name") val name: String,
+        @SerializedName("url") val url: String
+    ): Parcelable
+
+    @Parcelize
+    class Sprite(
+        @SerializedName("front_default") val frontDefaultUrl: String
+    ): Parcelable
+
+    companion object {
+        const val HP = "hp"
+        const val ATTACK = "attack"
+        const val DEFENSE = "defense"
+        const val SPECIAL_ATTACK = "special-attack"
+        const val SPECIAL_DEFENSE = "special-defense"
+        const val SPEED = "speed"
+    }
 }
 
 

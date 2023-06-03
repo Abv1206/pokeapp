@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.albertbonet.pokeapp.model.PokemonResult
-import com.albertbonet.pokeapp.model.Pokemons
 import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.model.database.Pokemons
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,20 +23,37 @@ class MainViewModel(
     private val _events = Channel<UiEvent>()
     val events = _events.receiveAsFlow()
 
+    init {
+        viewModelScope.launch {
+            pokemonsRepository.pokemons.collect() { pokemons ->
+                _state.value = UiState(pokemons = pokemons)
+            }
+        }
+    }
+
     fun onUiReady() {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(pokemons = pokemonsRepository.findPokemons(0).results)
+            pokemonsRepository.requestPokemons()
         }
     }
 
     fun onPokemonClicked(pokemonName: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(loading = true)
-            val pokemon = pokemonsRepository.getPokemon(pokemonName)
-            _state.value = _state.value.copy(loading = false)
-            _events.send(UiEvent.NavigateTo(pokemon))
+            requestPokemonCallback(pokemonName) {
+                _state.value = _state.value.copy(loading = false)
+                viewModelScope.launch {
+                    _events.send(UiEvent.NavigateTo(pokemonName))
+                }
+            }
+
         }
+    }
+
+    private suspend fun requestPokemonCallback(pokemonName: String, callback: () -> Unit) {
+        pokemonsRepository.requestPokemon(pokemonName)
+        callback()
     }
 
     data class UiState(
@@ -45,7 +62,7 @@ class MainViewModel(
     )
 
     sealed interface UiEvent {
-        data class NavigateTo(val pokemonResult: PokemonResult) : UiEvent
+        data class NavigateTo(val pokemonName: String) : UiEvent
     }
 }
 

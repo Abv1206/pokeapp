@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
+import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.getPokemonImageById
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
 import com.albertbonet.pokeapp.ui.common.loadUrl
@@ -18,7 +20,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(requireNotNull(intent.getParcelableExtra(POKEMON)))
+        DetailViewModelFactory(requireNotNull(intent.getStringExtra(POKEMON)), PokemonsRepository(app))
     }
     private lateinit var binding: ActivityDetailBinding
 
@@ -30,12 +32,12 @@ class DetailActivity : AppCompatActivity() {
         binding.pokemonDetailToolbar.setNavigationOnClickListener { onBackPressed() }
 
         with (viewModel.state) {
-            diff({it.pokemonResult.name}) { binding.pokemonDetailToolbar.title = it }
-            diff({it.pokemonResult}) { binding.pokemonDetailInfo.setPokemon(it)}
-            diff({it.pokemonResult.id}) { binding.pokemonArtImage.loadUrl(
+            diff({it.pokemon?.name}) { binding.pokemonDetailToolbar.title = it }
+            diff({it.pokemon}) { binding.pokemonDetailInfo.setPokemon(it)}
+            diff({it.pokemon?.id}) { binding.pokemonArtImage.loadUrl(
                 getPokemonImageById(it.toString())
             ) }
-            //diff({it.pokemon.summary}) { binding.pokemonDetailSummary.text = it }
+            diff({it.pokemon?.summary}) { binding.pokemonDetailSummary.text = it }
         }
     }
 

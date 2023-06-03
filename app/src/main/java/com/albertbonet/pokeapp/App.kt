@@ -2,6 +2,7 @@ package com.albertbonet.pokeapp
 
 import android.app.Application
 import androidx.room.Room
+import com.albertbonet.pokeapp.model.database.Converters
 import com.albertbonet.pokeapp.model.database.PokemonDatabase
 
 class App: Application() {

@@ -7,12 +7,11 @@ import kotlinx.parcelize.Parcelize
 class RemoteResultList(
     @SerializedName("count") val count: Int,
     val page: Int,
-    @SerializedName("results") val results: List<Pokemons>,
-) {
-}
+    @SerializedName("results") val results: List<PokemonsResult>,
+)
 
 @Parcelize
-data class Pokemons(
+data class PokemonsResult(
     @SerializedName("name") val name: String,
     @SerializedName("url") val url: String
 ) : Parcelable {

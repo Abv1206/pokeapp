@@ -11,6 +11,7 @@ import com.albertbonet.pokeapp.databinding.ActivityMainBinding
 import com.albertbonet.pokeapp.model.PokemonResult
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
+import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
 import com.albertbonet.pokeapp.ui.detail.DetailActivity
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(PokemonsRepository(this)) }
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(PokemonsRepository(app)) }
     private val adapter = PokemonsAdapter { viewModel.onPokemonClicked(it.name) }
     private lateinit var binding: ActivityMainBinding
 
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }
         launchAndCollect(viewModel.events) { event ->
             when (event) {
-                is MainViewModel.UiEvent.NavigateTo -> navigateTo(event.pokemonResult)
+                is MainViewModel.UiEvent.NavigateTo -> navigateTo(event.pokemonName)
             }
         }
 
@@ -53,9 +54,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateTo(pokemonResult: PokemonResult) {
+    private fun navigateTo(pokemonName: String) {
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.POKEMON, pokemonResult)
+        intent.putExtra(DetailActivity.POKEMON, pokemonName)
         startActivity(intent)
     }
 
