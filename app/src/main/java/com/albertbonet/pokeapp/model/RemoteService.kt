@@ -10,5 +10,5 @@ interface RemoteService {
     suspend fun listPokemons(@Query("limit") limit: Int, @Query("offset") offset: Int): RemoteResultList
 
     @GET("pokemon/{pokemonName}")
-    suspend fun pokemonDetail(@Path(value = "pokemonName", encoded = true) pokemonName: String): RemoteResult
+    suspend fun pokemonDetail(@Path(value = "pokemonName", encoded = true) pokemonName: String): PokemonResult
 }
