@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.detail.DetailActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.PokeApp.NoActionBar"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:contentScrim="?attr/colorPrimary"
+                app:statusBarScrim="?attr/colorPrimaryVariant"
+                app:layout_scrollFlags="noScroll">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/pokemon_art_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="center"
+                    app:strokeColor="@color/cardview_dark_background"
+                    android:background="@color/white"
+                    app:strokeWidth="2dp"
+                    android:padding="1dp"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    tools:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pokemon name"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="25dp"/>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/pokemon_detail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_arrow_back" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:transitionGroup="true">
+
+                <TextView
+                    android:id="@+id/pokemon_detail_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    tools:text="Lorem ipsum" />
+
+                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView
+                    android:id="@+id/pokemon_detail_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:background="?attr/colorSurface"
+                    tools:text="Lorem ipsum" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
