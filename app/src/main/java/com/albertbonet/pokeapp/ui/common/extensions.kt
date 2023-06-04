@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
 import com.albertbonet.pokeapp.App
+import com.albertbonet.pokeapp.model.Error
+import com.albertbonet.pokeapp.model.tryCall
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -30,8 +33,8 @@ inline fun <T> basicDiffUtil(
         areContentsTheSame(oldItem, newItem)
 }
 
-fun ImageView.loadUrl(url: String) {
-    Glide.with(context).load(url).into(this)
+fun ImageView.loadUrl(url: String): Error? = tryCall {
+    Glide.with(context).load(url).timeout(10000).into(this)
 }
 
 fun getPokemonImageUrl(url: String): String {
@@ -60,3 +63,12 @@ fun <T> LifecycleOwner.launchAndCollect(
 // casting of Application, is an extension property
 val Context.app: App
     get() = applicationContext as App
+
+fun showDialog(context: Context, message: String) {
+    val alertDialogBuilder = AlertDialog.Builder(context)
+    alertDialogBuilder.setMessage(message)
+    alertDialogBuilder.setPositiveButton("Accept") { dialog, _ -> dialog.dismiss() }
+
+    val alertDialog = alertDialogBuilder.create()
+    alertDialog.show()
+}

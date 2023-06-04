@@ -17,21 +17,19 @@ class PokemonsRepository(application: App) {
     private val remoteDataSource = PokemonRemoteDataSource(limit, offset)
     val pokemons = localDataSource.pokemons
 
-    suspend fun requestPokemons() {
+    suspend fun requestPokemons(): Error? = tryCall {
         if (localDataSource.isEmpty()) {
             val pokemons = remoteDataSource.findPokemons(0)
             localDataSource.save(pokemons.results.map {it.toLocalModel()})
         }
     }
 
-    suspend fun requestPokemon(name: String) {
+    suspend fun requestPokemon(name: String): Error? = tryCall {
         val pokemon = RemoteConnection.service.pokemonDetail(name)
         localDataSource.save(pokemon.toLocalModel())
     }
 
-    fun getPokemon(name: String): Flow<Pokemon> {
-        return localDataSource.findByName(name)
-    }
+    fun getPokemon(name: String): Flow<Pokemon> = localDataSource.findByName(name)
 
 }
 

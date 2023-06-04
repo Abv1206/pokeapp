@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.PokeApp" parent="Theme.MaterialComponents.Light.DarkActionBar" />
+    <style name="Theme.PokeApp" parent="Theme.MaterialComponents.Light.NoActionBar" />
     <style name="Theme.PokeApp.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar" >
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >@android:color/transparent</item>
+        <!-- Navigation Bar color. -->
+        <item name="android:navigationBarColor" >@android:color/transparent</item>
     </style>
 
     <style name="AppTheme.DarkOverlay" parent="@style/ThemeOverlay.MaterialComponents.ActionBar" />

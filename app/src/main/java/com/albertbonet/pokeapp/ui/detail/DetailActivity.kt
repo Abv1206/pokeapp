@@ -23,6 +23,7 @@ class DetailActivity : AppCompatActivity() {
         DetailViewModelFactory(requireNotNull(intent.getStringExtra(POKEMON)), PokemonsRepository(app))
     }
     private lateinit var binding: ActivityDetailBinding
+    private lateinit var detailState: DetailState
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +32,15 @@ class DetailActivity : AppCompatActivity() {
 
         binding.pokemonDetailToolbar.setNavigationOnClickListener { onBackPressed() }
 
+        detailState = DetailState(this)
+
         with (viewModel.state) {
-            diff({it.pokemon?.name}) { binding.pokemonDetailToolbar.title = it }
+            diff({it.pokemon?.name}) { binding.toolbarTitle.text = it }
             diff({it.pokemon}) { binding.pokemonDetailInfo.setPokemon(it)}
-            diff({it.pokemon?.id}) { binding.pokemonArtImage.loadUrl(
-                getPokemonImageById(it.toString())
-            ) }
+            diff({it.pokemon?.sprites?.frontDefaultUrl}) {
+                it?.let{ binding.pokemonArtImage.loadUrl(it) } }
             diff({it.pokemon?.summary}) { binding.pokemonDetailSummary.text = it }
+            diff({it.error}) { it?.let { detailState.showError(it) } }
         }
     }
 

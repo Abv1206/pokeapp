@@ -11,4 +11,6 @@
 <!--CUSTOM-->
     <color name="custom_teal">#89F6FB</color>
     <color name="custom_teal_dark">#65EEF4</color>
+    <color name="grey">#DCDCDC</color>
+    <color name="dark_grey">#555555</color>
 </resources>

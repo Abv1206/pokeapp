@@ -12,6 +12,8 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:theme="@style/Theme.PokeApp"
+        android:background="@color/dark_grey"
         android:fitsSystemWindows="true">
         
         <com.google.android.material.appbar.AppBarLayout

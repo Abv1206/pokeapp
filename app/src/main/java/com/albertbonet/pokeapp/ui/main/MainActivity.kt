@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.albertbonet.pokeapp.databinding.ActivityMainBinding
-import com.albertbonet.pokeapp.model.PokemonResult
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.app
@@ -36,12 +35,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.recycler.adapter = adapter
-        mainState = MainState(lifecycleScope, permissionRequester)
+        mainState = MainState(this, lifecycleScope, permissionRequester)
 
 
         with(viewModel.state) {
             diff({it.pokemons}, adapter::submitList)
-            diff({it.loading}) {binding.progress.visibility = if(it) View.VISIBLE else View.GONE}
+            diff({it.loading}) { binding.progress.visibility = if(it) View.VISIBLE else View.GONE }
+            diff({it.error}) { it?.let { mainState.showError(it) } }
         }
         launchAndCollect(viewModel.events) { event ->
             when (event) {
