@@ -10,21 +10,28 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         tools:context=".ui.detail.DetailActivity">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/background_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/pokemon_simple_route"
+            android:scaleType="centerCrop"/>
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.PokeApp.NoActionBar"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
+                app:layout_scrollFlags="noScroll"
                 app:contentScrim="?attr/colorPrimary"
-                app:statusBarScrim="?attr/colorPrimaryVariant"
-                app:layout_scrollFlags="noScroll">
+                app:statusBarScrim="?attr/colorPrimaryVariant">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/pokemon_art_image"
@@ -33,9 +40,9 @@
                     android:fitsSystemWindows="true"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
-                    app:strokeColor="@color/cardview_dark_background"
-                    android:background="@color/white"
-                    app:strokeWidth="2dp"
+                    app:strokeColor="@color/dark_grey"
+                    android:background="@color/grey_semi_transparent"
+                    app:strokeWidth="1dp"
                     android:padding="1dp"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     tools:src="@mipmap/ic_launcher" />
@@ -93,6 +100,8 @@
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
