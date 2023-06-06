@@ -40,7 +40,7 @@
                     android:fitsSystemWindows="true"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
-                    app:strokeColor="@color/dark_grey"
+                    app:strokeColor="@color/light_grey"
                     android:background="@color/grey_semi_transparent"
                     app:strokeWidth="1dp"
                     android:padding="1dp"
@@ -78,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:transitionGroup="true">
+
+                <include layout="@layout/info_pokemon"/>
 
                 <TextView
                     android:id="@+id/pokemon_detail_summary"

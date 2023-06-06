@@ -1,31 +1,31 @@
 package com.albertbonet.pokeapp.ui.detail
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.widget.ImageView
 import com.albertbonet.pokeapp.R
 import com.albertbonet.pokeapp.model.Error
+import com.albertbonet.pokeapp.model.database.Pokemon
+import com.albertbonet.pokeapp.model.getPokemonBackground
 import com.albertbonet.pokeapp.ui.common.showDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.request.RequestOptions
-//import jp.wasabeef.glide.transformations.BlurTransformation
-//import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation
+import jp.wasabeef.glide.transformations.BlurTransformation
+import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation
 
 class DetailState(
     private val context: Context
 ) {
 
-    /*fun setDetailBackground(imageView: ImageView) {
+    fun setDetailBackground(imageView: ImageView, pokemon: Pokemon?) = with(pokemon) {
         val multi = MultiTransformation(
             BlurTransformation(8, 2),
-            BrightnessFilterTransformation(-0.1f)
+            //BrightnessFilterTransformation(-0.1f)
         )
-        Glide.with(context).load(R.drawable.pokemon_simple_route)
+        Glide.with(context).load(getPokemonBackground(this?.types?.get(0)?.type))
             .apply(RequestOptions.bitmapTransform(multi))
             .into(imageView)
-    }*/
-
+    }
 
     fun showError(error: Error) = (when (error) {
         Error.Connectivity -> "Connection error"
