@@ -43,7 +43,8 @@ class DetailActivity : AppCompatActivity() {
             diff({it.pokemon?.summary}) { binding.pokemonDetailSummary.text = it }
             diff({it.error}) { it?.let { detailState.showError(it) } }
             diff({ it.pokemon }) {
-                detailState.setDetailBackground(binding.backgroundImageView, it) }
+                detailState.setDetailBackground(binding.backgroundImageView, it)}
+            diff({ it.pokemon }) { detailState.setChipsType(binding, it)}
         }
 
     }

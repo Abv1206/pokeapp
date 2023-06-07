@@ -19,24 +19,28 @@
 
         <com.google.android.material.chip.Chip
             android:id="@+id/type_1"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="60dp"
             android:text="fighting"
             android:textAlignment="center"
+            android:textAppearance="@style/AppTheme.TypeChip"
             app:chipBackgroundColor="@color/type_fighting"
             android:clickable="false"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/type_2"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_width="90dp"
+                android:layout_height="60dp"
                 android:text="electric"
                 android:textAlignment="center"
+                android:textAppearance="@style/AppTheme.TypeChip"
                 android:clickable="false"
                 app:chipBackgroundColor="@color/type_electric"
                 android:textColor="@color/white"
-                android:layout_marginStart="40dp"/>
+                android:layout_marginStart="40dp"
+                android:visibility="gone"/>
         </LinearLayout>
 
 

@@ -8,7 +8,6 @@ enum class PokemonTypes (val type: String) {
     GRASS("grass"),
     FIRE("fire"),
     WATER("water"),
-    PLANT("plant"),
     NORMAL("normal"),
     ELECTRIC("electric"),
     ICE("ice"),
@@ -32,16 +31,18 @@ fun Pokemon.SingularType.compareTo(type: PokemonTypes): Boolean {
 
 fun getPokemonBackground(type: Pokemon.SingularType?) = when {
     type != null -> {
-        if (type.compareTo(PokemonTypes.GRASS)) R.drawable.pokemon_simple_route
-        else if (type.compareTo(PokemonTypes.PLANT)) R.drawable.pokemon_simple_route
+        if (type.compareTo(PokemonTypes.GRASS)) R.drawable.pokemon_grass_route
+        else if (type.compareTo(PokemonTypes.ICE)) R.drawable.pokemon_ice_route
         else if (type.compareTo(PokemonTypes.FIRE)) R.drawable.pokemon_fire_route
+        else if (type.compareTo(PokemonTypes.FLYING)) R.drawable.pokemon_fly_route
+        else if (type.compareTo(PokemonTypes.WATER)) R.drawable.pokemon_water_route
         else R.drawable.pokemon_simple_route
     }
     else -> R.drawable.pokemon_simple_route
 }
 
 fun getPokemonColor(type: Pokemon.SingularType): String {
-    return "R.color.type_${type.name}"
+    return "type_${type.name}"
 }
 
 
