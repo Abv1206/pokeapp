@@ -37,7 +37,10 @@ class DetailViewModel (
 }
 
 @Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(private val pokemonName: String, private val pokemonsRepository: PokemonsRepository): ViewModelProvider.Factory {
+class DetailViewModelFactory(
+    private val pokemonName: String,
+    private val pokemonsRepository: PokemonsRepository
+): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return DetailViewModel(pokemonName, pokemonsRepository) as T
     }

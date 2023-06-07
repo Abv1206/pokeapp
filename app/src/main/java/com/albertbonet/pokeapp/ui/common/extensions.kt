@@ -16,6 +16,7 @@ import com.albertbonet.pokeapp.App
 import com.albertbonet.pokeapp.model.Error
 import com.albertbonet.pokeapp.model.tryCall
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
@@ -34,7 +35,7 @@ inline fun <T> basicDiffUtil(
 }
 
 fun ImageView.loadUrl(url: String): Error? = tryCall {
-    Glide.with(context).load(url).timeout(10000).into(this)
+    Glide.with(context).load(url).transition(DrawableTransitionOptions.withCrossFade()).timeout(10000).into(this)
 }
 
 fun getPokemonImageUrl(url: String): String {
