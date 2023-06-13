@@ -7,6 +7,7 @@ import com.albertbonet.pokeapp.model.Error
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.model.database.Pokemons
 import com.albertbonet.pokeapp.model.toError
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,7 +45,7 @@ class MainViewModel(
 
     fun onPokemonClicked(pokemonName: String) {
         viewModelScope.launch {
-            _state.update { it.copy(loading = true) }
+            _state.update { it.copy(loading = true, error = null) }
             val error = pokemonsRepository.requestPokemon(pokemonName)
             _state.update { it.copy(loading = false, error = error) }
             if (error == null) {

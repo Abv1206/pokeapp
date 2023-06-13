@@ -1,6 +1,7 @@
 package com.albertbonet.pokeapp.ui.detail
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -37,16 +38,21 @@ class DetailActivity : AppCompatActivity() {
 
         with (viewModel.state) {
             diff({it.pokemon?.name}) { binding.toolbarTitle.text = it }
-            diff({it.pokemon}) { binding.pokemonDetailInfo.setPokemon(it)}
+            diff({it.pokemon}) { detailState.setPokemonInfo(binding, it) }
             diff({it.pokemon?.sprites?.frontDefaultUrl}) {
                 it?.let{ binding.pokemonArtImage.loadUrl(it) } }
-            diff({it.pokemon?.summary}) { binding.pokemonDetailSummary.text = it }
             diff({it.error}) { it?.let { detailState.showError(it) } }
-            diff({ it.pokemon }) {
-                detailState.setDetailBackground(binding.backgroundImageView, it)}
-            diff({ it.pokemon }) { detailState.setChipsType(binding, it)}
+            diff({ it.pokemon?.types }) {
+                detailState.setDetailBackground(binding.backgroundImageView, it)
+                detailState.setChipsType(binding, it)
+            }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onUiReady()
     }
 
     private fun <T, U> Flow<T>.diff(mapf: (T) -> U, body: (U) -> Unit) {

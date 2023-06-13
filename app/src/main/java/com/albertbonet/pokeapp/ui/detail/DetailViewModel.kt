@@ -22,7 +22,7 @@ class DetailViewModel (
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    init {
+    fun onUiReady() {
         viewModelScope.launch {
             pokemonsRepository.getPokemon(pokemonName)
                 .catch { cause -> _state.update { it.copy(error = cause.toError()) } }

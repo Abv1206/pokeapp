@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <attr name="progressBarHeight" format="dimension" />
+    <attr name="labelBaseStatsWidth" format="dimension" />
+
+    <attr name="loadingProgressHeight" format="dimension"/>
+    <attr name="loadingProgressWidth" format="dimension"/>
+</resources>

@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
 import com.albertbonet.pokeapp.model.Error
+import com.albertbonet.pokeapp.model.PokemonResult
 import com.albertbonet.pokeapp.model.PokemonTypes
 import com.albertbonet.pokeapp.model.compareTo
 import com.albertbonet.pokeapp.model.database.Pokemon
@@ -17,7 +18,7 @@ import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
+import com.skydoves.progressview.ProgressView
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation
 
@@ -25,15 +26,15 @@ class DetailState(
     private val context: Context
 ) {
 
-    fun setDetailBackground(imageView: ImageView, pokemon: Pokemon?) = with(pokemon) {
+    fun setDetailBackground(imageView: ImageView, types: List<Pokemon.Type>?) = with(types) {
         val multi = MultiTransformation(
             BlurTransformation(8, 2),
             BrightnessFilterTransformation(-0.1f)
         )
-        Glide.with(context).load(getPokemonBackground(this?.types?.discernNormalType()))
+        Glide.with(context).load(getPokemonBackground(this.discernNormalType()))
             .transition(DrawableTransitionOptions.withCrossFade())
             .apply(RequestOptions.bitmapTransform(multi))
-            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.ALL))
+            .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.AUTOMATIC))
             .into(imageView)
     }
 
@@ -47,31 +48,86 @@ class DetailState(
                 } else {
                     if (this[0].type.compareTo(PokemonTypes.NORMAL)) this[1].type else this[0].type
                 }
-            } else -> null
+            }
+
+            else -> null
         }
     }
 
-    @SuppressLint("DiscouragedApi")
-    fun setChipsType(binding: ActivityDetailBinding, pokemon: Pokemon?) = when {
-        pokemon != null && pokemon.types.isNotEmpty() -> {
-            binding.layoutInfoPokemon.type1.visibility = View.VISIBLE
-            val stringColor = getPokemonColor(pokemon.types[0].type)
-            val colorId = context.resources.getIdentifier(stringColor, "color", context.packageName)
-            binding.layoutInfoPokemon.type1.setChipBackgroundColorResource(colorId)
-            binding.layoutInfoPokemon.type1.text = pokemon.types[0].type.name
+    fun setPokemonInfo(binding: ActivityDetailBinding, pokemon: Pokemon?) = with(pokemon) {
+        when {
+            this != null -> {
+                binding.layoutInfoDetailPokemon.heightText.text =
+                    "${(height.toFloat() / 10f)}m"
+                binding.layoutInfoDetailPokemon.weightText.text =
+                    "${(weight.toFloat() / 10f)}kg"
+                val pokedexPrefix = if (id < 10) "00" else if (id < 100) "0" else ""
+                binding.layoutInfoDetailPokemon.pokedexNumberText.text = "#${pokedexPrefix}${id}"
 
-            if (pokemon.types.size > 1) {
-                binding.layoutInfoPokemon.type2.visibility = View.VISIBLE
-                val stringColor2 = getPokemonColor(pokemon.types[1].type)
-                val colorId2 = context.resources.getIdentifier(stringColor2, "color", context.packageName)
-                binding.layoutInfoPokemon.type2.setChipBackgroundColorResource(colorId2)
-                binding.layoutInfoPokemon.type2.text = pokemon.types[1].type.name
-            } else {
-                binding.layoutInfoPokemon.type2.visibility = View.GONE
+
+                binding.layoutInfoDetailPokemon.hpProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.HP }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.attackProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.ATTACK }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.defenseProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.DEFENSE }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.spAttackProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.SPECIAL_ATTACK }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.spDefenseProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.SPECIAL_DEFENSE }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.speedProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.stats.find { it.stat.name == PokemonResult.SPEED }?.baseStat?.toFloat())
+                )
+                binding.layoutInfoDetailPokemon.expProgressView.setBaseStats(
+                    "",
+                    getValueOrDefault(this.baseExperience.toFloat())
+                )
             }
-        } else -> {
-            binding.layoutInfoPokemon.type1.visibility = View.GONE
-            binding.layoutInfoPokemon.type2.visibility = View.GONE
+        }
+    }
+
+    private fun ProgressView.setBaseStats(stat: String, value: Float) {
+        this.progress = value
+        this.labelText = "${value.toInt()}/${this.max.toInt()}"
+        this.duration = 1000L
+    }
+
+    private fun getValueOrDefault(value: Float?): Float = value ?: 0f
+
+    @SuppressLint("DiscouragedApi")
+    fun setChipsType(binding: ActivityDetailBinding, types: List<Pokemon.Type>?) = when {
+        !types.isNullOrEmpty() -> {
+            binding.layoutInfoTypePokemon.type1.visibility = View.VISIBLE
+            val stringColor = getPokemonColor(types[0].type)
+            val colorId = context.resources.getIdentifier(stringColor, "color", context.packageName)
+            binding.layoutInfoTypePokemon.type1.setChipBackgroundColorResource(colorId)
+            binding.layoutInfoTypePokemon.type1.text = types[0].type.name
+
+            if (types.size > 1) {
+                binding.layoutInfoTypePokemon.type2.visibility = View.VISIBLE
+                val stringColor2 = getPokemonColor(types[1].type)
+                val colorId2 =
+                    context.resources.getIdentifier(stringColor2, "color", context.packageName)
+                binding.layoutInfoTypePokemon.type2.setChipBackgroundColorResource(colorId2)
+                binding.layoutInfoTypePokemon.type2.text = types[1].type.name
+            } else {
+                binding.layoutInfoTypePokemon.type2.visibility = View.GONE
+            }
+        }
+        else -> {
+            binding.layoutInfoTypePokemon.type1.visibility = View.GONE
+            binding.layoutInfoTypePokemon.type2.visibility = View.GONE
         }
     }
 

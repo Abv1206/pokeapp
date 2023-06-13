@@ -48,17 +48,14 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
+        <ImageView
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_anchor="@+id/recycler"
-            app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recycler"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="@dimen/loadingProgressWidth"
+            android:layout_height="@dimen/loadingProgressHeight"
+            android:visibility="invisible"
+            android:src="@drawable/pokeball_logo"
+            android:layout_gravity="center">
+        </ImageView>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

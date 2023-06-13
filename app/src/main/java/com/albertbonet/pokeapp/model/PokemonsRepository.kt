@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 class PokemonsRepository(application: App) {
 
-    val limit = 20
-    val offset = 20
+    val limit = 1500
+    val offset = 0
 
     private val localDataSource = PokemonLocalDataSource(application.db.pokemonDao())
     private val remoteDataSource = PokemonRemoteDataSource(limit, offset)

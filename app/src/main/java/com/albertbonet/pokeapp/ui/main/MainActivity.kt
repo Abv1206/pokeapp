@@ -1,9 +1,11 @@
 package com.albertbonet.pokeapp.ui.main
 
 import android.Manifest
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.ViewTreeObserver
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,10 +14,12 @@ import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
+import com.albertbonet.pokeapp.ui.common.rotateAnimation
 import com.albertbonet.pokeapp.ui.detail.DetailActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,10 +41,9 @@ class MainActivity : AppCompatActivity() {
         binding.recycler.adapter = adapter
         mainState = MainState(this, lifecycleScope, permissionRequester)
 
-
         with(viewModel.state) {
             diff({it.pokemons}, adapter::submitList)
-            diff({it.loading}) { binding.progress.visibility = if(it) View.VISIBLE else View.GONE }
+            diff({it.loading}) { mainState.loadingStatus(binding.progress, it) }
             diff({it.error}) { it?.let { mainState.showError(it) } }
         }
         launchAndCollect(viewModel.events) { event ->
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         mainState.requestBluetoothPermission {
             viewModel.onUiReady()
+            mainState.preLoadBackgroundImages()
         }
     }
 

@@ -31,18 +31,16 @@
                 android:layout_height="250dp"
                 app:layout_scrollFlags="noScroll"
                 app:contentScrim="?attr/colorPrimary"
+                android:layout_marginBottom="20dp"
                 app:statusBarScrim="?attr/colorPrimaryVariant">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/pokemon_art_image"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
                     android:fitsSystemWindows="true"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
-                    app:strokeColor="@color/light_grey"
-                    android:background="@color/grey_semi_transparent"
-                    app:strokeWidth="1dp"
                     android:padding="1dp"
                     app:shapeAppearanceOverlay="@style/circleImageView"
                     tools:src="@mipmap/ic_launcher" />
@@ -53,10 +51,10 @@
                     android:layout_height="wrap_content"
                     android:text="Pokemon name"
                     android:textColor="@color/white"
-                    android:textSize="34sp"
+                    android:textSize="44sp"
                     android:textStyle="bold"
                     android:layout_gravity="center|bottom"
-                    android:layout_marginBottom="25dp"/>
+                    android:layout_marginBottom="20dp"/>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/pokemon_detail_toolbar"
@@ -80,18 +78,14 @@
                 android:transitionGroup="true">
 
                 <include
-                    android:id="@+id/layout_info_pokemon"
+                    android:id="@+id/layout_info_type_pokemon"
                     layout="@layout/info_type_pokemon"/>
 
-                <TextView
-                    android:id="@+id/pokemon_detail_summary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    tools:text="Lorem ipsum" />
+                <include
+                    android:id="@+id/layout_info_detail_pokemon"
+                    layout="@layout/info_detail_pokemon" />
 
-                <com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView
+                <!--<com.albertbonet.pokeapp.ui.detail.PokemonDetailInfoView
                     android:id="@+id/pokemon_detail_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,7 +93,7 @@
                     android:lineSpacingMultiplier="1.5"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:background="?attr/colorSurface"
-                    tools:text="Lorem ipsum" />
+                    tools:text="Lorem ipsum" />-->
 
             </LinearLayout>
 

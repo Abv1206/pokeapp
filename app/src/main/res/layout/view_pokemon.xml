@@ -12,13 +12,15 @@
         android:orientation="vertical"
         android:layout_margin="8dp"
         android:background="@drawable/view_pokemon_bg"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pokemon_art"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:scaleType="fitCenter"
+            android:layout_marginBottom="10dp"
             tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -26,8 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:gravity="center"
-            android:padding="8dp"
             tools:text="@tools:sample/lorem" />
 
 
