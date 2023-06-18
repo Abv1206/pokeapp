@@ -10,6 +10,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.albertbonet.pokeapp.databinding.ActivityMainBinding
+import com.albertbonet.pokeapp.domain.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.domain.RequestPokemonUseCase
+import com.albertbonet.pokeapp.domain.RequestPokemonsListUseCase
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.app
@@ -23,7 +26,13 @@ import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(PokemonsRepository(app)) }
+    private val viewModel: MainViewModel by viewModels {
+        val repository = PokemonsRepository(app)
+        MainViewModelFactory(RequestPokemonsListUseCase(repository),
+            RequestPokemonUseCase(repository),
+            GetPokemonsListUseCase(repository)
+        )
+    }
     private val adapter = PokemonsAdapter { viewModel.onPokemonClicked(it.name) }
     private lateinit var binding: ActivityMainBinding
 

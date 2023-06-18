@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
+import com.albertbonet.pokeapp.domain.GetPokemonUseCase
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
@@ -21,7 +22,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val viewModel: DetailViewModel by viewModels {
-        DetailViewModelFactory(requireNotNull(intent.getStringExtra(POKEMON)), PokemonsRepository(app))
+        val repository = PokemonsRepository(app)
+        DetailViewModelFactory(requireNotNull(intent.getStringExtra(POKEMON)), GetPokemonUseCase(repository))
     }
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailState: DetailState

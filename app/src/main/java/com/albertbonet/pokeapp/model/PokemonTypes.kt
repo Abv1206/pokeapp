@@ -1,6 +1,5 @@
 package com.albertbonet.pokeapp.model
 
-import android.content.res.Resources
 import com.albertbonet.pokeapp.R
 import com.albertbonet.pokeapp.model.database.Pokemon
 

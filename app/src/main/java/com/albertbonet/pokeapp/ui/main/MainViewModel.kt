@@ -3,6 +3,9 @@ package com.albertbonet.pokeapp.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.albertbonet.pokeapp.domain.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.domain.RequestPokemonUseCase
+import com.albertbonet.pokeapp.domain.RequestPokemonsListUseCase
 import com.albertbonet.pokeapp.model.Error
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.model.database.Pokemons
@@ -18,7 +21,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val pokemonsRepository: PokemonsRepository
+    private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
+    private val requestPokemonUseCase: RequestPokemonUseCase,
+    private val getPokemonsListUseCase: GetPokemonsListUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -29,7 +34,7 @@ class MainViewModel(
 
     init {
         viewModelScope.launch {
-            pokemonsRepository.pokemons
+            getPokemonsListUseCase()
                 .catch { cause -> _state.update { it.copy(error = cause.toError()) } }
                 .collect { pokemons -> _state.update { UiState(pokemons = pokemons) } }
         }
@@ -38,7 +43,7 @@ class MainViewModel(
     fun onUiReady() {
         viewModelScope.launch {
             _state.update { it.copy(loading = true) }
-            val error = pokemonsRepository.requestPokemons()
+            val error = requestPokemonsListUseCase()
             _state.update { it.copy(loading = false, error = error) }
         }
     }
@@ -46,25 +51,12 @@ class MainViewModel(
     fun onPokemonClicked(pokemonName: String) {
         viewModelScope.launch {
             _state.update { it.copy(loading = true, error = null) }
-            val error = pokemonsRepository.requestPokemon(pokemonName)
+            val error = requestPokemonUseCase(pokemonName)
             _state.update { it.copy(loading = false, error = error) }
             if (error == null) {
                 _events.send(UiEvent.NavigateTo(pokemonName))
             }
-            /*requestPokemonCallback(pokemonName) {
-                _state.value = _state.value.copy(loading = false)
-                viewModelScope.launch {
-                    _events.send(UiEvent.NavigateTo(pokemonName))
-                }
-            }*/
-
         }
-    }
-
-    private suspend fun requestPokemonCallback(pokemonName: String, callback: () -> Unit) {
-        val error = pokemonsRepository.requestPokemon(pokemonName)
-        _state.value = _state.value.copy(error = error)
-        callback()
     }
 
     data class UiState(
@@ -79,9 +71,11 @@ class MainViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val pokemonsRepository: PokemonsRepository) :
+class MainViewModelFactory(private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
+                           private val requestPokemonUseCase: RequestPokemonUseCase,
+                           private val getPokemonsListUseCase: GetPokemonsListUseCase) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(pokemonsRepository) as T
+        return MainViewModel(requestPokemonsListUseCase, requestPokemonUseCase, getPokemonsListUseCase) as T
     }
 }

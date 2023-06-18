@@ -3,6 +3,7 @@ package com.albertbonet.pokeapp.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.albertbonet.pokeapp.domain.GetPokemonUseCase
 import com.albertbonet.pokeapp.model.Error
 import com.albertbonet.pokeapp.model.PokemonsRepository
 import com.albertbonet.pokeapp.model.database.Pokemon
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel (
     private val pokemonName: String,
-    private val pokemonsRepository: PokemonsRepository
+    private val getPokemonUseCase: GetPokemonUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -24,7 +25,7 @@ class DetailViewModel (
 
     fun onUiReady() {
         viewModelScope.launch {
-            pokemonsRepository.getPokemon(pokemonName)
+            getPokemonUseCase(pokemonName)
                 .catch { cause -> _state.update { it.copy(error = cause.toError()) } }
                 .collect { pokemon -> _state.value = UiState(pokemon = pokemon) }
         }
@@ -39,9 +40,9 @@ class DetailViewModel (
 @Suppress("UNCHECKED_CAST")
 class DetailViewModelFactory(
     private val pokemonName: String,
-    private val pokemonsRepository: PokemonsRepository
+    private val getPokemonUseCase: GetPokemonUseCase
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(pokemonName, pokemonsRepository) as T
+        return DetailViewModel(pokemonName, getPokemonUseCase) as T
     }
 }
