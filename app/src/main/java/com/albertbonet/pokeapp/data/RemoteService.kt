@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.model
+package com.albertbonet.pokeapp.data
 
 import retrofit2.http.GET
 import retrofit2.http.Path

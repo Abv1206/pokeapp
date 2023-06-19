@@ -1,7 +1,7 @@
-package com.albertbonet.pokeapp.domain
+package com.albertbonet.pokeapp.usecases
 
-import com.albertbonet.pokeapp.model.Error
-import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.data.Error
+import com.albertbonet.pokeapp.data.PokemonsRepository
 
 class RequestPokemonUseCase(private val pokemonsRepository: PokemonsRepository) {
 

@@ -1,19 +1,11 @@
 package com.albertbonet.pokeapp.ui.main
 
 import android.animation.Animator
-import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Context
 import android.view.View
-import android.view.WindowManager
-import android.view.animation.Animation
-import android.view.animation.BounceInterpolator
-import androidx.appcompat.app.AppCompatActivity
 import com.albertbonet.pokeapp.R
-import com.albertbonet.pokeapp.databinding.ActivityMainBinding
-import com.albertbonet.pokeapp.model.Error
+import com.albertbonet.pokeapp.data.Error
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
-import com.albertbonet.pokeapp.ui.common.bouncingAnimator
 import com.albertbonet.pokeapp.ui.common.rotateAnimation
 import com.albertbonet.pokeapp.ui.common.showDialog
 import com.bumptech.glide.Glide

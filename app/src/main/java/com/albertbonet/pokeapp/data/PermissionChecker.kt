@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.model
+package com.albertbonet.pokeapp.data
 
 import android.app.Application
 import android.content.pm.PackageManager

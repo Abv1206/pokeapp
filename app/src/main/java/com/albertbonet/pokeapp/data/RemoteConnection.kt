@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.model
+package com.albertbonet.pokeapp.data
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

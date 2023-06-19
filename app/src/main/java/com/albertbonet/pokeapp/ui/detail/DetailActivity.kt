@@ -1,13 +1,12 @@
 package com.albertbonet.pokeapp.ui.detail
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
-import com.albertbonet.pokeapp.domain.GetPokemonUseCase
-import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
+import com.albertbonet.pokeapp.data.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
 import com.albertbonet.pokeapp.ui.common.loadUrl

@@ -1,7 +1,8 @@
-package com.albertbonet.pokeapp.model
+package com.albertbonet.pokeapp.ui.common
 
 import com.albertbonet.pokeapp.R
-import com.albertbonet.pokeapp.model.database.Pokemon
+import com.albertbonet.pokeapp.domain.Pokemon
+
 
 enum class PokemonTypes (val type: String) {
     GRASS("grass"),

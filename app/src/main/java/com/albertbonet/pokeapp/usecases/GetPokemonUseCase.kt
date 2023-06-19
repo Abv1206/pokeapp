@@ -1,6 +1,6 @@
-package com.albertbonet.pokeapp.domain
+package com.albertbonet.pokeapp.usecases
 
-import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.data.PokemonsRepository
 
 class GetPokemonUseCase(private val pokemonsRepository: PokemonsRepository) {
 

@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.model.database
+package com.albertbonet.pokeapp.framework.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

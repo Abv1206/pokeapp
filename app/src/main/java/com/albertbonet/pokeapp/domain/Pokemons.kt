@@ -1,11 +1,6 @@
-package com.albertbonet.pokeapp.model.database
+package com.albertbonet.pokeapp.domain
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity
 class Pokemons(
-    @PrimaryKey
     val id: Int,
     val name: String,
     val url: String,

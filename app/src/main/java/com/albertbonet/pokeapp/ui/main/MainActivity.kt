@@ -1,23 +1,19 @@
 package com.albertbonet.pokeapp.ui.main
 
 import android.Manifest
-import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewTreeObserver
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.albertbonet.pokeapp.databinding.ActivityMainBinding
-import com.albertbonet.pokeapp.domain.GetPokemonsListUseCase
-import com.albertbonet.pokeapp.domain.RequestPokemonUseCase
-import com.albertbonet.pokeapp.domain.RequestPokemonsListUseCase
-import com.albertbonet.pokeapp.model.PokemonsRepository
+import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
+import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
+import com.albertbonet.pokeapp.data.PokemonsRepository
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
-import com.albertbonet.pokeapp.ui.common.rotateAnimation
 import com.albertbonet.pokeapp.ui.detail.DetailActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -28,7 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels {
         val repository = PokemonsRepository(app)
-        MainViewModelFactory(RequestPokemonsListUseCase(repository),
+        MainViewModelFactory(
+            RequestPokemonsListUseCase(repository),
             RequestPokemonUseCase(repository),
             GetPokemonsListUseCase(repository)
         )

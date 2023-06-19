@@ -3,14 +3,12 @@ package com.albertbonet.pokeapp.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.albertbonet.pokeapp.domain.GetPokemonsListUseCase
-import com.albertbonet.pokeapp.domain.RequestPokemonUseCase
-import com.albertbonet.pokeapp.domain.RequestPokemonsListUseCase
-import com.albertbonet.pokeapp.model.Error
-import com.albertbonet.pokeapp.model.PokemonsRepository
-import com.albertbonet.pokeapp.model.database.Pokemons
-import com.albertbonet.pokeapp.model.toError
-import com.bumptech.glide.Glide
+import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
+import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
+import com.albertbonet.pokeapp.data.Error
+import com.albertbonet.pokeapp.data.toError
+import com.albertbonet.pokeapp.domain.Pokemons
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -73,7 +71,8 @@ class MainViewModel(
 @Suppress("UNCHECKED_CAST")
 class MainViewModelFactory(private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
                            private val requestPokemonUseCase: RequestPokemonUseCase,
-                           private val getPokemonsListUseCase: GetPokemonsListUseCase) :
+                           private val getPokemonsListUseCase: GetPokemonsListUseCase
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainViewModel(requestPokemonsListUseCase, requestPokemonUseCase, getPokemonsListUseCase) as T
