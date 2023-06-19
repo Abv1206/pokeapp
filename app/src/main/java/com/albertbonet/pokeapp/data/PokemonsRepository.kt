@@ -1,23 +1,21 @@
 package com.albertbonet.pokeapp.data
 
-import com.albertbonet.pokeapp.App
-import com.albertbonet.pokeapp.framework.database.Pokemons
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.domain.Pokemon
-import com.albertbonet.pokeapp.framework.database.Pokemon as DbPokemon
-import com.albertbonet.pokeapp.framework.datasource.PokemonRoomDataSource
-import com.albertbonet.pokeapp.framework.datasource.PokemonServerDataSource
+import com.albertbonet.pokeapp.framework.database.Pokemons
 import com.albertbonet.pokeapp.ui.common.getPokemonImageById
 import kotlinx.coroutines.flow.Flow
+import com.albertbonet.pokeapp.framework.database.Pokemon as DbPokemon
 
-class PokemonsRepository(application: App) {
+class PokemonsRepository(private val localDataSource: PokemonLocalDataSource,
+                         private val remoteDataSource: PokemonRemoteDataSource) {
 
-    val limit = 1500
-    val offset = 0
+    companion object {
+        val limit = 1500
+        val offset = 0
+    }
 
-    private val localDataSource: PokemonLocalDataSource = PokemonRoomDataSource(application.db.pokemonDao())
-    private val remoteDataSource: PokemonRemoteDataSource = PokemonServerDataSource(limit, offset)
     val pokemons = localDataSource.pokemons
 
     suspend fun requestPokemons(): Error? = tryCall {

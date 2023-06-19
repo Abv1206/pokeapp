@@ -11,6 +11,10 @@ import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
 import com.albertbonet.pokeapp.data.PokemonsRepository
+import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
+import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
+import com.albertbonet.pokeapp.framework.datasource.PokemonRoomDataSource
+import com.albertbonet.pokeapp.framework.datasource.PokemonServerDataSource
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
@@ -23,7 +27,9 @@ import kotlinx.coroutines.flow.map
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels {
-        val repository = PokemonsRepository(app)
+        val localDataSource = PokemonRoomDataSource(app.db.pokemonDao())
+        val remoteDataSource = PokemonServerDataSource(PokemonsRepository.limit, PokemonsRepository.offset)
+        val repository = PokemonsRepository(localDataSource, remoteDataSource)
         MainViewModelFactory(
             RequestPokemonsListUseCase(repository),
             RequestPokemonUseCase(repository),
