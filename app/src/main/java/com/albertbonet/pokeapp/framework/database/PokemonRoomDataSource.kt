@@ -1,6 +1,5 @@
-package com.albertbonet.pokeapp.framework.datasource
+package com.albertbonet.pokeapp.framework.database
 
-import com.albertbonet.pokeapp.framework.database.PokemonDao
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.domain.Pokemon
 import com.albertbonet.pokeapp.domain.Pokemons

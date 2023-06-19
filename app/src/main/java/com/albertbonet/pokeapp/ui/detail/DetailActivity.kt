@@ -7,8 +7,8 @@ import androidx.core.view.WindowCompat
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
 import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
 import com.albertbonet.pokeapp.data.PokemonsRepository
-import com.albertbonet.pokeapp.framework.datasource.PokemonRoomDataSource
-import com.albertbonet.pokeapp.framework.datasource.PokemonServerDataSource
+import com.albertbonet.pokeapp.framework.database.PokemonRoomDataSource
+import com.albertbonet.pokeapp.framework.server.PokemonServerDataSource
 import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
 import com.albertbonet.pokeapp.ui.common.loadUrl

@@ -2,8 +2,13 @@ package com.albertbonet.pokeapp.data
 
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
+import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.domain.Pokemon
+import com.albertbonet.pokeapp.domain.tryCall
 import com.albertbonet.pokeapp.framework.database.Pokemons
+import com.albertbonet.pokeapp.framework.server.PokemonResult
+import com.albertbonet.pokeapp.framework.server.PokemonsResult
+import com.albertbonet.pokeapp.framework.server.RemoteConnection
 import com.albertbonet.pokeapp.ui.common.getPokemonImageById
 import kotlinx.coroutines.flow.Flow
 import com.albertbonet.pokeapp.framework.database.Pokemon as DbPokemon

@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
-import com.albertbonet.pokeapp.data.Error
-import com.albertbonet.pokeapp.data.toError
+import com.albertbonet.pokeapp.domain.Error
+import com.albertbonet.pokeapp.domain.toError
 import com.albertbonet.pokeapp.domain.Pokemons
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

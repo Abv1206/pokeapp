@@ -1,6 +1,6 @@
 package com.albertbonet.pokeapp.data.datasource
 
-import com.albertbonet.pokeapp.data.RemoteResultList
+import com.albertbonet.pokeapp.framework.server.RemoteResultList
 
 
 interface PokemonRemoteDataSource {

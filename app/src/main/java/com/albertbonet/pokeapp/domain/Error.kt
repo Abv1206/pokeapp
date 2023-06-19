@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.data
+package com.albertbonet.pokeapp.domain
 
 import retrofit2.HttpException
 import java.io.IOException

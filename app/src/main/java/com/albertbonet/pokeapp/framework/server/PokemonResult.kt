@@ -1,4 +1,4 @@
-package com.albertbonet.pokeapp.data
+package com.albertbonet.pokeapp.framework.server
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

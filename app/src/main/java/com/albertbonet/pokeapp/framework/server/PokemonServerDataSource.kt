@@ -1,6 +1,5 @@
-package com.albertbonet.pokeapp.framework.datasource
+package com.albertbonet.pokeapp.framework.server
 
-import com.albertbonet.pokeapp.data.RemoteConnection
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 
 class PokemonServerDataSource(private val limit: Int, private val offset: Int) :

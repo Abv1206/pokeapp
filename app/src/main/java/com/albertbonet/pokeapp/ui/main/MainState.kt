@@ -4,7 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.view.View
 import com.albertbonet.pokeapp.R
-import com.albertbonet.pokeapp.data.Error
+import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
 import com.albertbonet.pokeapp.ui.common.rotateAnimation
 import com.albertbonet.pokeapp.ui.common.showDialog
