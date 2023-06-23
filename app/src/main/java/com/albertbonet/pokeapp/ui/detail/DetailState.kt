@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.ImageView
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
 import com.albertbonet.pokeapp.domain.Error
-import com.albertbonet.pokeapp.framework.server.PokemonResult
+import com.albertbonet.pokeapp.data.server.PokemonResult
 import com.albertbonet.pokeapp.ui.common.PokemonTypes
 import com.albertbonet.pokeapp.ui.common.compareTo
 import com.albertbonet.pokeapp.ui.common.getPokemonBackground

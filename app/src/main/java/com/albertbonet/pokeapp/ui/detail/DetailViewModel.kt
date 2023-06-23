@@ -3,9 +3,9 @@ package com.albertbonet.pokeapp.ui.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.albertbonet.pokeapp.data.toError
 import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
 import com.albertbonet.pokeapp.domain.Error
-import com.albertbonet.pokeapp.domain.toError
 import com.albertbonet.pokeapp.domain.Pokemon
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

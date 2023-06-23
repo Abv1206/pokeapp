@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.albertbonet.pokeapp.framework.database.Pokemon
+import com.albertbonet.pokeapp.data.database.Pokemon
 
 class PokemonDetailInfoView @JvmOverloads constructor(
     context: Context,

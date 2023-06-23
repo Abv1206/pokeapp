@@ -20,7 +20,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
 import com.albertbonet.pokeapp.App
 import com.albertbonet.pokeapp.domain.Error
-import com.albertbonet.pokeapp.domain.tryCall
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
@@ -45,7 +44,7 @@ inline fun <T> basicDiffUtil(
         areContentsTheSame(oldItem, newItem)
 }
 
-fun ImageView.loadUrl(url: String): Error? = tryCall {
+fun ImageView.loadUrl(url: String) {
     val shimmer =
         Shimmer.AlphaHighlightBuilder()// The attributes for a ShimmerDrawable is set by this builder
             //.setBaseColor(resources.getColor(R.color.white_semi_transparent))
