@@ -1,14 +1,14 @@
 package com.albertbonet.pokeapp.ui.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.albertbonet.pokeapp.data.toError
+import com.albertbonet.pokeapp.domain.Error
+import com.albertbonet.pokeapp.domain.Pokemons
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
-import com.albertbonet.pokeapp.domain.Error
-import com.albertbonet.pokeapp.domain.Pokemons
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +17,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
     private val requestPokemonUseCase: RequestPokemonUseCase,
     private val getPokemonsListUseCase: GetPokemonsListUseCase
@@ -65,16 +67,5 @@ class MainViewModel(
 
     sealed interface UiEvent {
         data class NavigateTo(val pokemonName: String) : UiEvent
-    }
-}
-
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
-                           private val requestPokemonUseCase: RequestPokemonUseCase,
-                           private val getPokemonsListUseCase: GetPokemonsListUseCase
-) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(requestPokemonsListUseCase, requestPokemonUseCase, getPokemonsListUseCase) as T
     }
 }

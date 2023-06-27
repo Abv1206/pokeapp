@@ -5,14 +5,10 @@ import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.domain.Pokemon
 import com.albertbonet.pokeapp.domain.Error
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class PokemonsRepository(private val localDataSource: PokemonLocalDataSource,
-                         private val remoteDataSource: PokemonRemoteDataSource) {
-
-    companion object {
-        val limit = 1500
-        val offset = 0
-    }
+class PokemonsRepository @Inject constructor(private val localDataSource: PokemonLocalDataSource,
+                                             private val remoteDataSource: PokemonRemoteDataSource) {
 
     val pokemons = localDataSource.pokemons
 

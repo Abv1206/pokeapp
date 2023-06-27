@@ -1,21 +1,24 @@
 package com.albertbonet.pokeapp.ui.detail
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.albertbonet.pokeapp.data.toError
-import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
+import com.albertbonet.pokeapp.di.PokemonName
 import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.domain.Pokemon
+import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel (
-    private val pokemonName: String,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    @PokemonName private val pokemonName: String,
     private val getPokemonUseCase: GetPokemonUseCase
 ): ViewModel() {
 
@@ -34,14 +37,4 @@ class DetailViewModel (
         val pokemon: Pokemon? = null,
         val error: Error? = null
     )
-}
-
-@Suppress("UNCHECKED_CAST")
-class DetailViewModelFactory(
-    private val pokemonName: String,
-    private val getPokemonUseCase: GetPokemonUseCase
-): ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return DetailViewModel(pokemonName, getPokemonUseCase) as T
-    }
 }

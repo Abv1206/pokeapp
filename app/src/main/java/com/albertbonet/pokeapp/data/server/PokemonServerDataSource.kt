@@ -3,41 +3,47 @@ package com.albertbonet.pokeapp.data.server
 import arrow.core.Either
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.data.tryCall
+import com.albertbonet.pokeapp.di.Limit
+import com.albertbonet.pokeapp.di.Offset
 import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.domain.Pokemon
 import com.albertbonet.pokeapp.domain.Pokemons
 import com.albertbonet.pokeapp.ui.common.getPokemonImageById
+import javax.inject.Inject
 
-class PokemonServerDataSource(private val limit: Int, private val offset: Int) :
+class PokemonServerDataSource @Inject constructor(
+    @Limit private val limit: Int,
+    @Offset private val offset: Int,
+    private val remoteService: RemoteService) :
     PokemonRemoteDataSource {
 
     override suspend fun findPokemons(page: Int): Either<Error, List<Pokemons>> = tryCall {
-        RemoteConnection.service
+        remoteService
             .listPokemons(
                 limit,
                 (offset * page)
             )
             .results
-            .toLocalModel()
+            .toDomainModel()
     }
 
     override suspend fun requestPokemon(name: String): Either<Error, Pokemon> = tryCall {
-        RemoteConnection.service
+        remoteService
             .pokemonDetail(name)
-            .toLocalModel()
+            .toDomainModel()
     }
 }
 
-private fun List<PokemonsResult>.toLocalModel(): List<Pokemons> = map { it .toLocalModel() }
+private fun List<PokemonsResult>.toDomainModel(): List<Pokemons> = map { it .toDomainModel() }
 
-private fun PokemonsResult.toLocalModel(): Pokemons = Pokemons(
+private fun PokemonsResult.toDomainModel(): Pokemons = Pokemons(
     id = getId(),
     name = name,
     url = url,
     officialUrlImage = getPokemonImageById(getId().toString())
 )
 
-private fun PokemonResult.toLocalModel(): Pokemon {
+private fun PokemonResult.toDomainModel(): Pokemon {
     val typesModel = mutableListOf<Pokemon.Type>().castFromRemoteType(types)
     val statsModel = mutableListOf<Pokemon.Stat>().castFromRemoteStat(stats)
     val spritesModel = Pokemon.Sprite(sprites.frontDefaultUrl)

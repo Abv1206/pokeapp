@@ -9,8 +9,9 @@ import com.albertbonet.pokeapp.data.database.Pokemon as DbPokemon
 import com.albertbonet.pokeapp.data.database.Pokemons as DbPokemons
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class PokemonRoomDataSource(private val pokemonDao: PokemonDao) : PokemonLocalDataSource {
+class PokemonRoomDataSource @Inject constructor(private val pokemonDao: PokemonDao) : PokemonLocalDataSource {
 
     override val pokemons: Flow<List<Pokemons>> = pokemonDao.getAll().map { it.toDomainModel() }
 

@@ -7,33 +7,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.albertbonet.pokeapp.databinding.ActivityMainBinding
-import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
-import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
-import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
-import com.albertbonet.pokeapp.data.PokemonsRepository
-import com.albertbonet.pokeapp.data.database.PokemonRoomDataSource
-import com.albertbonet.pokeapp.data.server.PokemonServerDataSource
 import com.albertbonet.pokeapp.ui.common.PermissionRequester
-import com.albertbonet.pokeapp.ui.common.app
 import com.albertbonet.pokeapp.ui.common.launchAndCollect
 import com.albertbonet.pokeapp.ui.detail.DetailActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels {
-        val localDataSource = PokemonRoomDataSource(app.db.pokemonDao())
-        val remoteDataSource = PokemonServerDataSource(PokemonsRepository.limit, PokemonsRepository.offset)
-        val repository = PokemonsRepository(localDataSource, remoteDataSource)
-        MainViewModelFactory(
-            RequestPokemonsListUseCase(repository),
-            RequestPokemonUseCase(repository),
-            GetPokemonsListUseCase(repository)
-        )
-    }
+    private val viewModel: MainViewModel by viewModels()
     private val adapter = PokemonsAdapter { viewModel.onPokemonClicked(it.name) }
     private lateinit var binding: ActivityMainBinding
 
