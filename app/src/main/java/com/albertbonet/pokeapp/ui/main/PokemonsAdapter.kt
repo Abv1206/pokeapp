@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.albertbonet.pokeapp.R
 import com.albertbonet.pokeapp.databinding.ViewPokemonBinding
-import com.albertbonet.pokeapp.model.database.Pokemons
+import com.albertbonet.pokeapp.domain.Pokemons
 import com.albertbonet.pokeapp.ui.common.basicDiffUtil
-import com.albertbonet.pokeapp.ui.common.getPokemonImageUrl
 import com.albertbonet.pokeapp.ui.common.inflate
 import com.albertbonet.pokeapp.ui.common.loadUrl
 

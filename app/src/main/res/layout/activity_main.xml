@@ -12,7 +12,6 @@
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:theme="@style/Theme.PokeApp"
         android:background="@color/dark_grey"
         android:fitsSystemWindows="true">
         
@@ -25,8 +24,18 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:title="@string/app_name" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:foregroundGravity="center"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/logo_pokeapp"/>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -39,17 +48,14 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
+        <ImageView
             android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_anchor="@+id/recycler"
-            app:layout_anchorGravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recycler"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="@dimen/loadingProgressWidth"
+            android:layout_height="@dimen/loadingProgressHeight"
+            android:visibility="invisible"
+            android:src="@drawable/pokeball_logo"
+            android:layout_gravity="center">
+        </ImageView>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

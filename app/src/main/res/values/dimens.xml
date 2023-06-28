@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="progressBarHeight">24dp</dimen>
+    <dimen name="labelBaseStatsWidth">32dp</dimen>
+
+    <dimen name="loadingProgressWidth">60dp</dimen>
+    <dimen name="loadingProgressHeight">60dp</dimen>
+</resources>
