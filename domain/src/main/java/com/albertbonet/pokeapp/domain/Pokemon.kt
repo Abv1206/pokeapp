@@ -1,6 +1,6 @@
 package com.albertbonet.pokeapp.domain
 
-class Pokemon(
+data class Pokemon(
     val id: Int,
     val name: String,
     val weight: Int,
