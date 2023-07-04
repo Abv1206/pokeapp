@@ -1,7 +1,9 @@
 package com.albertbonet.pokeapp.ui.main
 
+import app.cash.turbine.test
 import com.albertbonet.pokeapp.CoroutinesTestRule
 import com.albertbonet.pokeapp.datashared.samplePokemons
+import com.albertbonet.pokeapp.ui.main.MainViewModel.*
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
@@ -46,11 +48,23 @@ class MainViewModelTest {
     @Test
     fun `State is updated with current cached content immediately`() = runTest {
 
-        val results = mutableListOf<MainViewModel.UiState>()
-        val job = launch { vm.state.toList(results) }
-        runCurrent() //execute all coroutine pending tasks and jumps to next line when finishes
-        job.cancel()
+        vm.state.test {
+            //assertEquals(UiState(), awaitItem()) // Wait until value received and checks it
+            assertEquals(UiState(pokemons = pokemons), awaitItem())
+            cancel()
+        }
+    }
 
-        assertEquals(MainViewModel.UiState(pokemons = pokemons), results[0])
+    @Test
+    fun `Progress is shown when screen start and hidden when it finishes requesting pokemons`() = runTest {
+
+        vm.onUiReady()
+
+        vm.state.test {
+            assertEquals(UiState(pokemons = pokemons), awaitItem())
+            assertEquals(UiState(pokemons = pokemons, loading = true), awaitItem())
+            assertEquals(UiState(pokemons = pokemons, loading = false), awaitItem())
+            cancel()
+        }
     }
 }
