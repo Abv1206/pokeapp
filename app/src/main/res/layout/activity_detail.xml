@@ -60,7 +60,21 @@
                     android:id="@+id/pokemon_detail_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:navigationIcon="@drawable/ic_arrow_back" />
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    android:paddingEnd="20dp"
+                    tools:ignore="RtlSymmetry">
+
+                    <ImageButton
+                        android:id="@+id/send"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:padding="10dp"
+                        android:src="@drawable/send_ic"
+                        android:layout_gravity="end"
+                        android:clickable="true"
+                        android:background="?attr/selectableItemBackground"/>
+
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
