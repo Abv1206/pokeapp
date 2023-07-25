@@ -1,5 +1,6 @@
 package com.albertbonet.pokeapp.data
 
+import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.domain.Pokemon
@@ -7,8 +8,11 @@ import com.albertbonet.pokeapp.domain.Error
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class PokemonsRepository @Inject constructor(private val localDataSource: PokemonLocalDataSource,
-                                             private val remoteDataSource: PokemonRemoteDataSource) {
+class PokemonsRepository @Inject constructor(
+    private val localDataSource: PokemonLocalDataSource,
+    private val remoteDataSource: PokemonRemoteDataSource,
+    private val bluetoothDataSource: IPokemonBluetoothDataSource
+) {
 
     val pokemons = localDataSource.pokemons
 
@@ -33,6 +37,20 @@ class PokemonsRepository @Inject constructor(private val localDataSource: Pokemo
     }
 
     fun getPokemon(name: String): Flow<Pokemon> = localDataSource.findByName(name)
+
+    suspend fun sendBluetoothPokemon(pokemon: Pokemon): Error? = bluetoothDataSource.sendPokemon(pokemon)
+
+    suspend fun requestBluetoothPokemon(): Pokemon? {
+        val pokemon = bluetoothDataSource.startBluetooth()
+        pokemon?.let {
+            if (!localDataSource.exists(pokemon.name)) {
+                localDataSource.save(pokemon)
+            }
+        }
+        return pokemon
+    }
+
+    suspend fun requestBluetoothConnection(mac: String): Error? = bluetoothDataSource.connectDevice(mac)
 
 }
 

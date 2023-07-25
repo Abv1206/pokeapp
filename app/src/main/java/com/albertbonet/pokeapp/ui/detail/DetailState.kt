@@ -1,9 +1,25 @@
 package com.albertbonet.pokeapp.ui.detail
 
+import android.Manifest
+import android.R
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Build
+import android.provider.Settings
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
+import com.albertbonet.pokeapp.data.AndroidPermissionChecker
 import com.albertbonet.pokeapp.databinding.ActivityDetailBinding
 import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.data.server.PokemonResult
@@ -12,6 +28,7 @@ import com.albertbonet.pokeapp.ui.common.compareTo
 import com.albertbonet.pokeapp.ui.common.getPokemonBackground
 import com.albertbonet.pokeapp.ui.common.getPokemonColor
 import com.albertbonet.pokeapp.domain.Pokemon
+import com.albertbonet.pokeapp.ui.common.pokedexPrefix
 import com.albertbonet.pokeapp.ui.common.showDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
@@ -23,8 +40,37 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.gpu.BrightnessFilterTransformation
 
 class DetailState(
-    private val context: Context
+    private val context: Context,
+    private val bluetoothAdapter: BluetoothAdapter
 ) {
+
+    private lateinit var alertDialog: AlertDialog
+
+    private val androidPermissionChecker = AndroidPermissionChecker(context)
+
+    private var dataList = mutableListOf<BluetoothDevice>()
+    private val listAdapter: ArrayAdapter<String> by lazy {
+        ArrayAdapter(context, R.layout.two_line_list_item, R.id.text1)
+    }
+
+    val PERMISSIONS_LOCATION = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+        )
+    } else {
+        arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+        )
+    }
 
     fun setDetailBackground(imageView: ImageView, types: List<Pokemon.Type>?) = with(types) {
         val multi = MultiTransformation(
@@ -61,8 +107,7 @@ class DetailState(
                     "${(height.toFloat() / 10f)}m"
                 binding.layoutInfoDetailPokemon.weightText.text =
                     "${(weight.toFloat() / 10f)}kg"
-                val pokedexPrefix = if (id < 10) "00" else if (id < 100) "0" else ""
-                binding.layoutInfoDetailPokemon.pokedexNumberText.text = "#${pokedexPrefix}${id}"
+                binding.layoutInfoDetailPokemon.pokedexNumberText.text = pokedexPrefix(id)
 
 
                 binding.layoutInfoDetailPokemon.hpProgressView.setBaseStats(
@@ -128,6 +173,88 @@ class DetailState(
         else -> {
             binding.layoutInfoTypePokemon.type1.visibility = View.GONE
             binding.layoutInfoTypePokemon.type2.visibility = View.GONE
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun setupAlertDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Selecciona un elemento")
+        builder.setNegativeButton("Cancelar", null)
+        builder.setAdapter(listAdapter) { _, which ->
+            val selectedData = dataList[which]
+            val name = selectedData.name
+            val macAddress = selectedData.address
+
+            (context as DetailActivity).deviceSelected(macAddress)
+        }
+        alertDialog = builder.create()
+    }
+
+    @SuppressLint("MissingPermission")
+    fun onSendClicked() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (!androidPermissionChecker.check(Manifest.permission.BLUETOOTH_SCAN) ||
+                    !androidPermissionChecker.check(Manifest.permission.ACCESS_FINE_LOCATION) ||
+                !androidPermissionChecker.check(Manifest.permission.BLUETOOTH_CONNECT)) {
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    PERMISSIONS_LOCATION,
+                    1
+                )
+            }
+        } else {
+            if (!androidPermissionChecker.check(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    PERMISSIONS_LOCATION,
+                    1
+                )
+            }
+        }
+        val locationManager = context.getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+        val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if (!isGpsEnabled) {
+            startActivityForResult(
+                context as DetailActivity,
+                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                1,
+                null
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (androidPermissionChecker.check(Manifest.permission.BLUETOOTH_SCAN) && isGpsEnabled) {
+                if (!bluetoothAdapter.isEnabled) bluetoothAdapter.enable()
+                if (bluetoothAdapter.isDiscovering) bluetoothAdapter.cancelDiscovery()
+                bluetoothAdapter.startDiscovery()
+
+                alertDialog.show()
+                alertDialog.window?.setLayout(1000, 1600)
+            }
+        } else {
+            if (androidPermissionChecker.check(Manifest.permission.ACCESS_FINE_LOCATION) && isGpsEnabled) {
+                if (!bluetoothAdapter.isEnabled) bluetoothAdapter.enable()
+                if (bluetoothAdapter.isDiscovering) bluetoothAdapter.cancelDiscovery()
+                bluetoothAdapter.startDiscovery()
+
+                alertDialog.show()
+                alertDialog.window?.setLayout(1000, 1600)
+            }
+        }
+    }
+
+    fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("MissingPermission")
+    fun updateListAdapter(list: List<BluetoothDevice>) {
+        dataList.clear()
+        dataList.addAll(list)
+        listAdapter.clear()
+        dataList.forEach { data ->
+            val item = "${data.name} (${data.address})"
+            listAdapter.add(item)
         }
     }
 
