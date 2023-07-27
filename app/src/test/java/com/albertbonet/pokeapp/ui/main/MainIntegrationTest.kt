@@ -7,9 +7,9 @@ import com.albertbonet.pokeapp.datashared.samplePokemon
 import com.albertbonet.pokeapp.datashared.samplePokemons
 import com.albertbonet.pokeapp.domain.Pokemon
 import com.albertbonet.pokeapp.domain.Pokemons
-import com.albertbonet.pokeapp.ui.FakeBluetoothDataSource
-import com.albertbonet.pokeapp.ui.FakeLocalDataSource
-import com.albertbonet.pokeapp.ui.FakeRemoteDataSource
+import com.albertbonet.pokeapp.appTestShared.FakeBluetoothDataSource
+import com.albertbonet.pokeapp.appTestShared.FakeLocalDataSource
+import com.albertbonet.pokeapp.appTestShared.FakeRemoteDataSource
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
 import com.albertbonet.pokeapp.usecases.RequestBluetoothPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
