@@ -32,7 +32,7 @@ class MainState(
         is Error.NullPointer -> "Null pointer error"
         is Error.Server -> "Server error"
         is Error.SocketTimeout -> "Connection timeout error"
-        is Error.Unknown -> "Unknown error"
+        is Error.Unknown -> if (error.message.isNullOrEmpty()) "Unknown error" else error.message
     }).apply {
         showDialog(context, this)
     }

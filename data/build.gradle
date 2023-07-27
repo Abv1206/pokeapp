@@ -11,7 +11,12 @@ java {
 dependencies {
     implementation project(':domain')
 
-    implementation "io.arrow-kt:arrow-core:1.1.5"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1'
-    implementation "javax.inject:javax.inject:1"
+    implementation libs.io.arrow.kt.arrow.core
+    implementation libs.org.jetbrains.kotlinx.kotlinx.coroutines.core
+    implementation libs.javax.inject.javax.inject
+
+    testImplementation project(':testShared')
+    testImplementation libs.junit
+    testImplementation libs.org.mockito.kotlin.mockito.kotlin
+    testImplementation libs.org.mockito.mockito.inline
 }

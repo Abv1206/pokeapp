@@ -6,9 +6,11 @@ import com.albertbonet.pokeapp.data.toError
 import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.domain.Pokemons
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.usecases.RequestBluetoothPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,13 +19,15 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val requestPokemonsListUseCase: RequestPokemonsListUseCase,
     private val requestPokemonUseCase: RequestPokemonUseCase,
-    private val getPokemonsListUseCase: GetPokemonsListUseCase
+    private val getPokemonsListUseCase: GetPokemonsListUseCase,
+    private val requestBluetoothPokemonUseCase: RequestBluetoothPokemonUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(UiState())
@@ -55,6 +59,20 @@ class MainViewModel @Inject constructor(
             _state.update { it.copy(loading = false, error = error) }
             if (error == null) {
                 _events.send(UiEvent.NavigateTo(pokemonName))
+            }
+        }
+    }
+
+    fun onBluetoothDiscovering() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _state.update { it.copy(error = null) }
+                val pokemon = requestBluetoothPokemonUseCase()
+                if (pokemon != null) {
+                    _events.send(UiEvent.NavigateTo(pokemon.name))
+                } else {
+                    _state.update { it.copy(error = Error.Unknown("Wrong pokemon data received")) }
+                }
             }
         }
     }

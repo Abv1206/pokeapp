@@ -5,4 +5,6 @@
 
     <dimen name="loadingProgressWidth">60dp</dimen>
     <dimen name="loadingProgressHeight">60dp</dimen>
+
+    <dimen name="pokeball_size">16dp</dimen>
 </resources>

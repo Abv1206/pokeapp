@@ -1,9 +1,14 @@
 package com.albertbonet.pokeapp.di
 
 import android.app.Application
+import android.bluetooth.BluetoothSocket
+import android.os.Handler
 import androidx.room.Room
+import com.albertbonet.pokeapp.data.bluetooth.BluetoothService
+import com.albertbonet.pokeapp.data.bluetooth.PokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.database.PokemonDatabase
 import com.albertbonet.pokeapp.data.database.PokemonRoomDataSource
+import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.data.server.PokemonServerDataSource
@@ -18,6 +23,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import java.io.InputStream
+import java.io.OutputStream
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -66,6 +73,12 @@ object AppModule {
             .build()
             .create()
 
+    }
+
+    @Provides
+    @Singleton
+    fun provideBluetoothService(app: Application): IPokemonBluetoothDataSource {
+        return PokemonBluetoothDataSource(app)
     }
 
 }

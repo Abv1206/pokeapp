@@ -95,6 +95,11 @@ fun <T> LifecycleOwner.launchAndCollect(
     }
 }
 
+fun pokedexPrefix(id: Int): String {
+    val prefix = if (id < 10) "00" else if (id < 100) "0" else ""
+    return "#${prefix}${id}"
+}
+
 // casting of Application, is an extension property
 val Context.app: App
     get() = applicationContext as App
