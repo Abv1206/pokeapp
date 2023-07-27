@@ -1,6 +1,7 @@
 package com.albertbonet.pokeapp.ui
 
 import arrow.core.right
+import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.datashared.samplePokemon
@@ -64,4 +65,17 @@ class FakeRemoteDataSource : PokemonRemoteDataSource {
     override suspend fun findPokemons(page: Int) = pokemons.right()
 
     override suspend fun requestPokemon(name: String) = pokemon.right()
+}
+
+class FakeBluetoothDataSource : IPokemonBluetoothDataSource {
+
+    var pokemon = defaultFakePokemon
+
+    override suspend fun startBluetooth(): Pokemon? = pokemon
+
+    override fun stopBluetooth() { }
+
+    override suspend fun connectDevice(mac: String): Error? = null
+
+    override suspend fun sendPokemon(pokemon: Pokemon): Error? = null
 }

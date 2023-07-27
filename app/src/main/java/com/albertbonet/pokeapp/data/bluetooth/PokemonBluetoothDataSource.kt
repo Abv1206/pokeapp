@@ -49,7 +49,6 @@ class PokemonBluetoothDataSource @Inject constructor(
         error = null
         stillWaiting = true
         startAcceptThread()
-        println("Start Bluetooth ${Thread.currentThread()}")
         while (stillWaiting) {  }
         return pokemonReceived
     }
@@ -144,7 +143,6 @@ class PokemonBluetoothDataSource @Inject constructor(
                 try {
                     it.connect()
                     startConnectedThread(it)
-
                 } catch (e: IOException) {
                     error = e.toError()
                     Log.e(TAG, "Error connecting with the device: ${e.message}")

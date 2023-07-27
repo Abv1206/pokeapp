@@ -1,5 +1,6 @@
 package com.albertbonet.pokeapp.data
 
+import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
 import com.albertbonet.pokeapp.datashared.samplePokemon
@@ -28,15 +29,19 @@ class PokemonsRepositoryTest {
     @Mock
     lateinit var remoteDataSource: PokemonRemoteDataSource
 
+    @Mock
+    lateinit var bluetoothDataSource: IPokemonBluetoothDataSource
+
     private val localPokemons = flowOf(listOf(samplePokemons.copy(1)))
     private val localPokemon = flowOf(samplePokemon.copy(6))
+    private val bluetoothPokemon = samplePokemon.copy(6)
     private lateinit var pokemonsRepository: PokemonsRepository
 
     @Before
     fun setUp() {
         whenever(localDataSource.pokemons).thenReturn(localPokemons)
         whenever(localDataSource.findByName(CHARIZARD)).thenReturn(localPokemon)
-        pokemonsRepository = PokemonsRepository(localDataSource, remoteDataSource)
+        pokemonsRepository = PokemonsRepository(localDataSource, remoteDataSource, bluetoothDataSource)
     }
 
     @Test
@@ -61,5 +66,14 @@ class PokemonsRepositoryTest {
         val result = pokemonsRepository.getPokemon(BLASTOISE)
 
         assertNotEquals(localPokemon, result)
+    }
+
+    @Test
+    fun `Pokemon is recieved from bluetooth successfully`(): Unit = runBlocking {
+
+        whenever(bluetoothDataSource.startBluetooth()).thenReturn(bluetoothPokemon)
+        val result = pokemonsRepository.requestBluetoothPokemon()
+
+        assertEquals(bluetoothPokemon, result)
     }
 }

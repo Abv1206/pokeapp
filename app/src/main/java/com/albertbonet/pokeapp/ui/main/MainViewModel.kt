@@ -64,11 +64,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun onBluetoothDiscovering() {
-        println("Bluetooth discovering ${Thread.currentThread()}")
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 _state.update { it.copy(error = null) }
-                println("Launch discovering ${Thread.currentThread()}")
                 val pokemon = requestBluetoothPokemonUseCase()
                 if (pokemon != null) {
                     _events.send(UiEvent.NavigateTo(pokemon.name))

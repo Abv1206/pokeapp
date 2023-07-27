@@ -5,6 +5,7 @@ import com.albertbonet.pokeapp.CoroutinesTestRule
 import com.albertbonet.pokeapp.datashared.samplePokemons
 import com.albertbonet.pokeapp.ui.main.MainViewModel.*
 import com.albertbonet.pokeapp.usecases.GetPokemonsListUseCase
+import com.albertbonet.pokeapp.usecases.RequestBluetoothPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonUseCase
 import com.albertbonet.pokeapp.usecases.RequestPokemonsListUseCase
 import kotlinx.coroutines.flow.flowOf
@@ -36,13 +37,16 @@ class MainViewModelTest {
     @Mock
     lateinit var requestPokemonUseCase: RequestPokemonUseCase
 
+    @Mock
+    lateinit var requestBluetoothPokemonUseCase: RequestBluetoothPokemonUseCase
+
     private lateinit var vm: MainViewModel
     private var pokemons = listOf(samplePokemons.copy(1))
 
     @Before
     fun setUp() {
         whenever(getPokemonsListUseCase()).thenReturn(flowOf(pokemons))
-        vm = MainViewModel(requestPokemonsListUseCase, requestPokemonUseCase, getPokemonsListUseCase)
+        vm = MainViewModel(requestPokemonsListUseCase, requestPokemonUseCase, getPokemonsListUseCase, requestBluetoothPokemonUseCase)
     }
 
     @Test

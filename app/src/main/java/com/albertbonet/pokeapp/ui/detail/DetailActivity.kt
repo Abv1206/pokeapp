@@ -118,14 +118,6 @@ class DetailActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 println("OnActivityResult - Location Settings - OK")
-                /*if (androidPermissionChecker.check(Manifest.permission.BLUETOOTH_SCAN)) {
-                    bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-                    if (!bluetoothAdapter.isEnabled) bluetoothAdapter.enable()
-                    if (bluetoothAdapter.isDiscovering) bluetoothAdapter.cancelDiscovery()
-                    bluetoothAdapter.startDiscovery()
-
-                    alertDialog.show()
-                }*/
             } else {
                 detailState.showToast("Enable location settings and set it as high precision")
                 println("OnActivityResult - Location Settings - KO")

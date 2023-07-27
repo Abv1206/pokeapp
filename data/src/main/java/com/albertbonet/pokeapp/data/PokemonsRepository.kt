@@ -43,9 +43,7 @@ class PokemonsRepository @Inject constructor(
     suspend fun requestBluetoothPokemon(): Pokemon? {
         val pokemon = bluetoothDataSource.startBluetooth()
         pokemon?.let {
-            if (!localDataSource.exists(pokemon.name)) {
-                localDataSource.save(pokemon)
-            }
+            localDataSource.save(pokemon)
         }
         return pokemon
     }

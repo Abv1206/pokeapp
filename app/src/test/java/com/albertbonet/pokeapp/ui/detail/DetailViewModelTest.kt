@@ -5,6 +5,8 @@ import com.albertbonet.pokeapp.CoroutinesTestRule
 import com.albertbonet.pokeapp.datashared.samplePokemon
 import com.albertbonet.pokeapp.ui.detail.DetailViewModel.*
 import com.albertbonet.pokeapp.usecases.GetPokemonUseCase
+import com.albertbonet.pokeapp.usecases.RequestBluetoothConnectionUseCase
+import com.albertbonet.pokeapp.usecases.SendPokemonBluetoothUseCase
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -29,13 +31,19 @@ class DetailViewModelTest {
     @Mock
     lateinit var getPokemonUseCase: GetPokemonUseCase
 
+    @Mock
+    lateinit var sendPokemonBluetoothUseCase: SendPokemonBluetoothUseCase
+
+    @Mock
+    lateinit var requestBluetoothConnectionUseCase: RequestBluetoothConnectionUseCase
+
     private lateinit var vm: DetailViewModel
     private val pokemon = samplePokemon.copy(6)
 
     @Before
     fun setup() {
         whenever(getPokemonUseCase(CHARIZARD)).thenReturn(flowOf(pokemon))
-        vm = DetailViewModel(CHARIZARD, getPokemonUseCase)
+        vm = DetailViewModel(CHARIZARD, getPokemonUseCase, sendPokemonBluetoothUseCase, requestBluetoothConnectionUseCase)
     }
 
     @Test
