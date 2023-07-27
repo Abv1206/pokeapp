@@ -1,17 +1,21 @@
-package com.albertbonet.pokeapp.ui
+package com.albertbonet.pokeapp.appTestShared
 
 import arrow.core.right
 import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
+import com.albertbonet.pokeapp.data.server.PokemonResult
+import com.albertbonet.pokeapp.data.server.PokemonsResult
+import com.albertbonet.pokeapp.data.server.RemoteResultList
+import com.albertbonet.pokeapp.data.server.RemoteService
 import com.albertbonet.pokeapp.datashared.samplePokemon
 import com.albertbonet.pokeapp.datashared.samplePokemons
-import com.albertbonet.pokeapp.domain.Error
 import com.albertbonet.pokeapp.domain.Pokemon
 import com.albertbonet.pokeapp.domain.Pokemons
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import com.albertbonet.pokeapp.domain.Error
 
 val defaultFakePokemons = listOf(
     samplePokemons.copy(1),
@@ -79,3 +83,24 @@ class FakeBluetoothDataSource : IPokemonBluetoothDataSource {
 
     override suspend fun sendPokemon(pokemon: Pokemon): Error? = null
 }
+
+class FakeRemoteService(private val pokemons: List<PokemonsResult> = emptyList()) : RemoteService {
+
+    override suspend fun listPokemons(limit: Int, offset: Int) = RemoteResultList(
+        0,
+        1,
+        pokemons
+    )
+
+    override suspend fun pokemonDetail(pokemonName: String) = PokemonResult(
+        6,
+        "Charizard",
+        1500,
+        120,
+        210,
+        listOf(),
+        listOf(),
+        PokemonResult.Sprite("")
+    )
+}
+
