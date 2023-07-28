@@ -45,6 +45,12 @@ This app has a **Bluetooth** feature too. Allows you to share Pokémon between t
 		- :testShared
 		- :appTestShared
 
+## Testing
+It has implemented simple tests that cover:
+- Unit tests
+- Integration tests
+- Instrumentation tests
+
 ## License
 Developed and designed by Albert Bonet, 2023
 App for free use. Commercial purposes are banned.
