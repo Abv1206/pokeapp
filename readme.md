@@ -9,7 +9,7 @@ This app has a **Bluetooth** feature too. Allows you to share Pokémon between t
  -   The receiving device must click the upper right icon on the main screen, which looks like an arrow pointing downwards.
  - The transmitting device must click the upper right icon on the detail screen, which looks like an arrow pointing upwards. Then, a dialog with a list of nearby Bluetooth devices will appear. When the user clicks on a device from the list, it will ask on both devices to pair them. If both accept, the Pokémon will be sent.
 
-|  ![Main screen](https://im.ge/i/971j5x)|![Detail screen](https://im.ge/i/971NIy)  |
+|  ![Main screen](images/main_screen.png?raw=true)|![Detail screen](https://raw.githubusercontent.com/Abv1206/pokeapp/master/images/detail_screen.png)  |
 |--|--|
 
 ## Tech and library
