@@ -5,6 +5,8 @@ import androidx.test.rule.GrantPermissionRule
 import com.albertbonet.pokeapp.appTestShared.FakeBluetoothDataSource
 import com.albertbonet.pokeapp.appTestShared.FakeRemoteDataSource
 import com.albertbonet.pokeapp.appTestShared.FakeRemoteService
+import com.albertbonet.pokeapp.appTestShared.buildDatabasePokemons
+import com.albertbonet.pokeapp.data.database.PokemonDao
 import com.albertbonet.pokeapp.data.server.PokemonServerDataSource
 import com.albertbonet.pokeapp.di.AppModule
 import com.albertbonet.pokeapp.ui.main.MainActivity
@@ -13,12 +15,15 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltAndroidTest
-@UninstallModules(AppModule::class)
 class MainInstrumentationTest {
 
     @get:Rule(order = 0)
@@ -32,20 +37,23 @@ class MainInstrumentationTest {
     @get:Rule(order = 2)
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
-    @BindValue
-    @JvmField
-    val FakeBluetoothDataSource = FakeBluetoothDataSource()
+    @Inject
+    lateinit var pokemonDao: PokemonDao
 
-    @BindValue
-    @JvmField
-    val FakeRemoteService = FakeRemoteService()
-
-    @BindValue
-    @JvmField
-    val FakeRemoteDataSource = FakeRemoteDataSource()
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+    }
 
     @Test
-    fun test_it_works() {
+    fun check_4_items_db() = runTest {
+        pokemonDao.insertPokemons(buildDatabasePokemons(1,2,3,4))
+        assertEquals(4, pokemonDao.pokemonCount())
+    }
 
+    @Test
+    fun check_6_items_db() = runTest {
+        pokemonDao.insertPokemons(buildDatabasePokemons(1,2,3,4,5,6))
+        assertEquals(6, pokemonDao.pokemonCount())
     }
 }

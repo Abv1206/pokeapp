@@ -1,6 +1,7 @@
 package com.albertbonet.pokeapp.appTestShared
 
 import arrow.core.right
+import com.albertbonet.pokeapp.data.database.PokemonDao
 import com.albertbonet.pokeapp.data.datasource.IPokemonBluetoothDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonLocalDataSource
 import com.albertbonet.pokeapp.data.datasource.PokemonRemoteDataSource
@@ -16,6 +17,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import com.albertbonet.pokeapp.domain.Error
+import com.albertbonet.pokeapp.data.database.Pokemon as DatabasePokemon
+import com.albertbonet.pokeapp.data.database.Pokemons as DatabasePokemons
+
 
 val defaultFakePokemons = listOf(
     samplePokemons.copy(1),
@@ -61,6 +65,50 @@ class FakeLocalDataSource : PokemonLocalDataSource {
     }
 }
 
+
+class FakePokemonDao(pokemons: List<DatabasePokemons> = emptyList(), pokemon: DatabasePokemon) : PokemonDao {
+
+    val inMemoryPokemons = MutableStateFlow<List<DatabasePokemons>>(emptyList())
+    val inMemoryPokemon = MutableStateFlow<List<DatabasePokemon>>(emptyList())
+
+    val pokemons = inMemoryPokemons
+
+    override fun getAll(): Flow<List<DatabasePokemons>> = pokemons
+
+    override suspend fun pokemonCount(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updatePokemon(pokemon: DatabasePokemon) {
+        TODO("Not yet implemented")
+    }
+
+    private lateinit var findPokemonFlow: MutableStateFlow<DatabasePokemon>
+
+    override fun findByName(name: String): Flow<DatabasePokemon> {
+        findPokemonFlow = MutableStateFlow(inMemoryPokemon.value.first { it.name == name })
+        return findPokemonFlow
+    }
+
+    override fun findById(id: Int): Flow<DatabasePokemon> = flowOf(inMemoryPokemon.value.first { it.id == id })
+
+    override suspend fun exists(name: String): Boolean = inMemoryPokemon.value.any { it.name == name }
+
+    override suspend fun insertPokemons(pokemons: List<DatabasePokemons>) {
+        inMemoryPokemons.value = pokemons
+    }
+
+    override suspend fun insertPokemon(pokemon: DatabasePokemon) {
+        inMemoryPokemon.value = listOf(pokemon)
+
+        if(::findPokemonFlow.isInitialized) {
+            listOf(pokemon).firstOrNull { it.name == findPokemonFlow.value.name }
+                ?.let { findPokemonFlow.value = it }
+        }
+    }
+}
+
+
 class FakeRemoteDataSource : PokemonRemoteDataSource {
 
     var pokemons = defaultFakePokemons
@@ -84,13 +132,9 @@ class FakeBluetoothDataSource : IPokemonBluetoothDataSource {
     override suspend fun sendPokemon(pokemon: Pokemon): Error? = null
 }
 
-class FakeRemoteService(private val pokemons: List<PokemonsResult> = emptyList()) : RemoteService {
+class FakeRemoteService(private val pokemons: RemoteResultList) : RemoteService {
 
-    override suspend fun listPokemons(limit: Int, offset: Int) = RemoteResultList(
-        0,
-        1,
-        pokemons
-    )
+    override suspend fun listPokemons(limit: Int, offset: Int) = pokemons
 
     override suspend fun pokemonDetail(pokemonName: String) = PokemonResult(
         6,

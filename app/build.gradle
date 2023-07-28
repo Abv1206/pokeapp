@@ -113,14 +113,12 @@ dependencies {
     testImplementation libs.app.cash.turbine.turbine
 
     androidTestImplementation project(":appTestShared")
+    androidTestImplementation project(":testShared")
     androidTestImplementation libs.androidx.test.ext.junit.ktx
     androidTestImplementation libs.androidx.test.espresso.espresso.contrib
     androidTestImplementation libs.androidx.test.runner
     androidTestImplementation libs.androidx.test.rules
     androidTestImplementation libs.com.google.dagger.hilt.android.testing
+    androidTestImplementation libs.org.jetbrains.kotlinx.kotlinx.coroutines.test
     kaptAndroidTest libs.com.google.dagger.hilt.compiler
-    androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }
